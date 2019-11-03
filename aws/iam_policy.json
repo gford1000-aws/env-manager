@@ -1,0 +1,27 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ],
+      "Resource": "arn:aws:s3:::<bucket-name>*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:Get*"
+      ],
+      "Resource": "arn:aws:ssm:<region>:<account>:parameter/<prefix>/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:DescribeParameters"
+      ],
+      "Resource": "arn:aws:ssm:<region>:<account>:*"
+    }
+  ]
+}

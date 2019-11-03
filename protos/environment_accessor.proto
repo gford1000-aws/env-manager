@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package abc;
+
+import "grpc/status/status.proto";
+
+service EnvironmentAccessor {
+	rpc getObject(ObjectRetrievalRequest) returns (stream ObjectRetrievalResponse) {}
+}
+
+message ObjectRetrievalRequest {
+	string logical_location = 1;
+	string object_key = 2;
+	int32 object_version = 3;
+	int64 part_size = 4;
+}
+
+message ObjectRetrievalResponse {
+	oneof value {
+		google.rpc.Status status = 1;
+		string data = 2;
+	}
+}
+
