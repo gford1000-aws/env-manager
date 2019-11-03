@@ -23,18 +23,33 @@ The parameter hierarchy is expected to be:
 ```python
 LogicalMappings
    |
-   --- <Logical Mapping Name>
-           |
-	   |--- Region
-           |--- Bucket
+   -- <Logical Mapping Name>
+          |
+	  |-- Region
+          |-- Bucket
 ```
 
-Here, Bucket is the name of the bucket, and Region is the AWS region in which the bucket was created.
+Here, ```Bucket``` is the name of the bucket, and ```Region``` is the AWS region in which the bucket was created.
 
 ## Client
 
 An example client application is available in ```python/client```, demonstrating how the server can provide streamed responses 
 for large objects and specific object versions. By default the client will attempt to connect to the gRPC server at ```localhost:50053```.
+
+## Dockerfile
+
+Builds the image based on the python3.7 alpine image as follows:
+
+1. Installs g++ and build kit
+2. Installs and builds python packages as specified in ```requirements.txt```
+3. Removes g++ and build kit
+4. Reinstalls libstdc++ so that gRPC shared library dependencies are available
+5. Creates env_mgr group and env_mgr user
+6. Switches to the env_mgr user
+7. Copies executable code in ```python/server``` to ```/home/env_mgr/server```
+8. Sets the working directory to ```/home/env_mgr/server```
+9. Opens port 50055
+10. Starts the server on port 50055 using the command ```python ./aws_env_server.py --p 50055```
 
 ## Licence
 
